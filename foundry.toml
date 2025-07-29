@@ -3,6 +3,12 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
+solc = "0.8.23"
+via_ir = true
+
+metadata = true
+metadata_hash = "none"  # disable ipfs
+use_literal_content = true # use source code
 
 # Monad Testnet Configuration
 eth-rpc-url="https://testnet-rpc.monad.xyz"
