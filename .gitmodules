@@ -4,3 +4,6 @@
 [submodule "lib/cross-chain-swap"]
 	path = lib/cross-chain-swap
 	url = https://github.com/1inch/cross-chain-swap
+[submodule "lib/lop"]
+	path = lib/lop
+	url = https://github.com/1inch/limit-order-protocol
