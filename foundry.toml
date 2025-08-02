@@ -5,11 +5,14 @@ libs = ["lib"]
 
 solc = "0.8.23"
 via_ir = true
+optimizer_runs = 1000000
 
 metadata = true
 metadata_hash = "none"  # disable ipfs
 use_literal_content = true # use source code
 
 # Monad Testnet Configuration
-eth-rpc-url="https://testnet-rpc.monad.xyz"
-chain_id = 10143
+#eth-rpc-url="https://testnet-rpc.monad.xyz"
+#chain_id = 10143
+eth-rpc-url="https://ethereum-sepolia-rpc.publicnode.com"
+chain_id = 11155111

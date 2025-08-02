@@ -6,18 +6,29 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/1inch/1inch-sdk-go/sdk-clients/fusionplus"
-)
-
-var (
-	devPortalToken = os.Getenv("DEV_PORTAL_TOKEN")
-	publicAddress  = os.Getenv("WALLET_ADDRESS")
-	privateKey     = os.Getenv("WALLET_KEY")
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file automatically
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Warning: .env file not found or failed to load: %v", err)
+	}
+
+	var (
+		devPortalToken = os.Getenv("DEV_PORTAL_TOKEN")
+		publicAddress  = os.Getenv("WALLET_ADDRESS")
+		privateKey     = os.Getenv("WALLET_KEY")
+		srcChain       = os.Getenv("SRC_CHAIN")
+		dstChain       = os.Getenv("DST_CHAIN")
+		srcToken       = os.Getenv("SRC_TOKEN")
+		dstToken       = os.Getenv("DST_TOKEN")
+	)
+
 	config, err := fusionplus.NewConfiguration(fusionplus.ConfigurationParams{
 		ApiUrl:     "https://api.1inch.dev",
 		ApiKey:     devPortalToken,
@@ -32,21 +43,30 @@ func main() {
 	}
 	ctx := context.Background()
 
-	srcChain := 42161
-	dstChain := 8453
+	// srcChain := 42161
+	// dstChain := 8453
 
-	srcToken := "0xaf88d065e77c8cC2239327C5EDb3A432268e5831"
-	dstToken := "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+	// srcToken := "0xaf88d065e77c8cC2239327C5EDb3A432268e5831"
+	// dstToken := "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
 
-	invert := true
-	if invert {
-		srcChain, dstChain = dstChain, srcChain
-		srcToken, dstToken = dstToken, srcToken
+	// invert := true
+	// if invert {
+	// 	srcChain, dstChain = dstChain, srcChain
+	// 	srcToken, dstToken = dstToken, srcToken
+	// }
+
+	srcChainFloat, err := strconv.ParseFloat(srcChain, 32)
+	if err != nil {
+		log.Fatalf("failed to parse SRC_CHAIN: %v", err)
+	}
+	dstChainFloat, err := strconv.ParseFloat(dstChain, 32)
+	if err != nil {
+		log.Fatalf("failed to parse DST_CHAIN: %v", err)
 	}
 
 	quoteParams := fusionplus.QuoterControllerGetQuoteParamsFixed{
-		SrcChain:        float32(srcChain),
-		DstChain:        float32(dstChain),
+		SrcChain:        float32(srcChainFloat),
+		DstChain:        float32(dstChainFloat),
 		SrcTokenAddress: srcToken,
 		DstTokenAddress: dstToken,
 		Amount:          "1500000",
