@@ -7,7 +7,8 @@ import {IOrderMixin} from "limit-order-protocol/contracts/interfaces/IOrderMixin
 import {TakerTraits} from "limit-order-protocol/contracts/libraries/TakerTraitsLib.sol";
 
 import {IResolverExample} from "../lib/cross-chain-swap/contracts/interfaces/IResolverExample.sol";
-import {RevertReasonForwarder} from "../lib/cross-chain-swap/lib/solidity-utils/contracts/libraries/RevertReasonForwarder.sol";
+import {RevertReasonForwarder} from
+    "../lib/cross-chain-swap/lib/solidity-utils/contracts/libraries/RevertReasonForwarder.sol";
 import {IEscrowFactory} from "../lib/cross-chain-swap/contracts/interfaces/IEscrowFactory.sol";
 import {IBaseEscrow} from "../lib/cross-chain-swap/contracts/interfaces/IBaseEscrow.sol";
 import {TimelocksLib, Timelocks} from "../lib/cross-chain-swap/contracts/libraries/TimelocksLib.sol";
@@ -52,7 +53,6 @@ contract Resolver is Ownable {
         TakerTraits takerTraits,
         bytes calldata args
     ) external payable onlyOwner {
-
         IBaseEscrow.Immutables memory immutablesMem = immutables;
         immutablesMem.timelocks = TimelocksLib.setDeployedAt(immutables.timelocks, block.timestamp);
         address computed = _FACTORY.addressOfEscrowSrc(immutablesMem);
@@ -69,14 +69,17 @@ contract Resolver is Ownable {
     /**
      * @notice See {IResolverExample-deployDst}.
      */
-    function deployDst(IBaseEscrow.Immutables calldata dstImmutables, uint256 srcCancellationTimestamp) external onlyOwner payable {
+    function deployDst(IBaseEscrow.Immutables calldata dstImmutables, uint256 srcCancellationTimestamp)
+        external
+        payable
+        onlyOwner
+    {
         _FACTORY.createDstEscrow{value: msg.value}(dstImmutables, srcCancellationTimestamp);
     }
 
     function withdraw(IEscrow escrow, bytes32 secret, IBaseEscrow.Immutables calldata immutables) external {
         escrow.withdraw(secret, immutables);
     }
-
 
     function cancel(IEscrow escrow, IBaseEscrow.Immutables calldata immutables) external {
         escrow.cancel(immutables);

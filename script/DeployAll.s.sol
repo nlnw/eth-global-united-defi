@@ -18,14 +18,7 @@ contract DeployAll is Script {
         TestLimitOrderProtocol lop = new TestLimitOrderProtocol(weth);
 
         // 2. Deploy TestEscrowFactory
-        TestEscrowFactory factory = new TestEscrowFactory(
-            address(lop),
-            weth,
-            weth,
-            msg.sender,
-            60 * 30,
-            60 * 30
-        );
+        TestEscrowFactory factory = new TestEscrowFactory(address(lop), weth, weth, msg.sender, 60 * 30, 60 * 30);
 
         // 3. Deploy Resolver
         new Resolver(factory, IOrderMixin(address(lop)), msg.sender);

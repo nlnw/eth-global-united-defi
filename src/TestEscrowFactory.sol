@@ -11,14 +11,5 @@ contract TestEscrowFactory is EscrowFactory {
         address owner,
         uint32 rescueDelaySrc,
         uint32 rescueDelayDst
-    )
-        EscrowFactory(
-            limitOrderProtocol,
-            feeToken,
-            accessToken,
-            owner,
-            rescueDelayDst,
-            rescueDelayDst
-        )
-    {}
+    ) EscrowFactory(limitOrderProtocol, feeToken, accessToken, owner, rescueDelayDst, rescueDelayDst) {}
 }
